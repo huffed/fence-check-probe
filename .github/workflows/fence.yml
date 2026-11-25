@@ -1,0 +1,22 @@
+# The required check. It runs from the default branch's copy and always fails. Head branches starting "late-" make it
+# fail last; every other branch makes it fail first.
+name: fence
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+    branches: [dev]
+permissions:
+  contents: read
+jobs:
+  live-paths:
+    name: live-path fence
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: fail, first or last
+        env:
+          HEAD: ${{ github.head_ref }}
+        run: |
+          case "$HEAD" in late-*) sleep 100 ;; esac
+          echo "the fence fails"
+          exit 1
