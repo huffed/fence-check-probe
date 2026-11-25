@@ -1,0 +1,12 @@
+name: own
+on:
+  pull_request:
+    branches: [dev]
+permissions:
+  contents: read
+jobs:
+  own:
+    name: live-path fence
+    runs-on: ubuntu-latest
+    steps:
+      - run: sleep 1
